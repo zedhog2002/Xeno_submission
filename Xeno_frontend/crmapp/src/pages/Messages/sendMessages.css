@@ -1,0 +1,60 @@
+.send-messages-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  h2 {
+    text-align: center;
+  }
+  
+  textarea {
+    width: 100%;
+    height: 150px;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  button.send-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  button.send-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  .message-log-table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+  }
+  
+  .message-log-table th,
+  .message-log-table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+  }
+  
+  .message-log-table th {
+    background-color: #f4f4f4;
+  }
+  
+  .message-log-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .message-log-table td {
+    word-wrap: break-word;
+    max-width: 200px;
+  }
+  

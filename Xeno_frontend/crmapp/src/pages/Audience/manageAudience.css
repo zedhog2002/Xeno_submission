@@ -1,0 +1,104 @@
+.manage-audience-page {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .audience-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  .audience-table th,
+  .audience-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .main-group-row {
+    cursor: pointer;
+    background-color: #f9f9f9;
+  }
+  
+  .subtable-row td {
+    padding: 0;
+  }
+  
+  .subtable {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .subtable th,
+  .subtable td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+    background-color: #f4f4f4;
+  }
+  
+  .subtable td {
+    font-size: 14px;
+  }
+  
+  .subtable tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .subtable td:first-child {
+    width: 25%;
+  }
+  
+  .subtable td:nth-child(2) {
+    width: 20%;
+  }
+  
+  .subtable td:nth-child(3) {
+    width: 20%;
+  }
+  
+  .subtable td:nth-child(4) {
+    width: 20%;
+  }
+  
+  strong {
+    color: #333;
+  }
+  
+  .error {
+    color: red;
+    font-weight: bold;
+  }
+
+  .delete-btn {
+    background-color: #f44336; /* Red color */
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+  }
+  
+  .delete-btn:hover {
+    background-color: #d32f2f;
+  }
+
+  .create-audience-btn {
+    background-color: #4CAF50; /* Green color */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    margin-bottom: 20px;
+  }
+  
+  .create-audience-btn:hover {
+    background-color: #45a049;
+  }
+  
