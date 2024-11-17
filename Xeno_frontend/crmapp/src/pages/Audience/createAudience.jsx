@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./createAudience.css";
+import API_BASE_URL from '../globals'; // Import the base URL
 
 const AddAudience = () => {
   const [customers, setCustomers] = useState([]);
@@ -21,21 +22,27 @@ const AddAudience = () => {
 
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false); // Added loading state
+  const [loading, setLoading] = useState(false);
 
+  // Fetch distinct values when the component mounts
   useEffect(() => {
     fetchDistinctValues();
   }, []);
 
+  // Fetch customers when filters change
   useEffect(() => {
-    fetchCustomers();
+    if (filters.age || filters.address || filters.spent || filters.visits || filters.most_frequent) {
+      fetchCustomers();
+    }
+    else {
+      fetchCustomers();
+    }
   }, [filters]);
 
+  // Fetch distinct filter values
   const fetchDistinctValues = async () => {
     try {
-      const response = await axios.get(
-        "http://127.0.0.1:8000/customers/get_distinct_values"
-      );
+      const response = await axios.get(`${API_BASE_URL}/audienceGroup/get_distinct_values`);
       const {
         distinctAges = [],
         distinctAddresses = [],
@@ -55,27 +62,29 @@ const AddAudience = () => {
     }
   };
 
+  // Fetch customers based on filters
   const fetchCustomers = async () => {
-    setLoading(true); // Set loading to true before fetching customers
+    console.log("hi");
+    setLoading(true);
     try {
-      const response = await axios.post(
-        "http://127.0.0.1:8000/customers/get_query",
-        filters
-      );
+      const response = await axios.post(`${API_BASE_URL}/customers/get_query`, filters);
       setCustomers(response.data || []);
+      console.log(response.data);
       setError(""); // Reset any previous errors
     } catch (err) {
       setError("Error fetching customer data. Please try again.");
     } finally {
-      setLoading(false); // Set loading to false after fetching is complete
+      setLoading(false);
     }
   };
 
+  // Handle filter changes
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     setFilters((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Handle adding an audience group
   const handleAddAudienceGroup = async () => {
     if (loading) {
       alert("Data is still loading, please wait.");
@@ -94,15 +103,11 @@ const AddAudience = () => {
     }
 
     try {
-      console.log(customers);
-      const response = await axios.post(
-        "http://127.0.0.1:8000/audienceGroup/save_audience_group",
-        {
-          name: groupName,
-          filters,
-          customers,
-        }
-      );
+      const response = await axios.post(`${API_BASE_URL}/audienceGroup/save_audience_group`, {
+        name: groupName,
+        filters,
+        customers,
+      });
 
       if (response.data.groupId) {
         setMessage("Audience group saved successfully!");

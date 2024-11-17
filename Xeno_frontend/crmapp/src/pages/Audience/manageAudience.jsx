@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";  // Import useNavigate
 import "./manageAudience.css";
+import API_BASE_URL from '../globals';
 
 const ManageAudience = () => {
   const [audienceGroups, setAudienceGroups] = useState([]);
@@ -17,7 +18,7 @@ const ManageAudience = () => {
 
   const fetchAudienceGroups = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/audienceGroup/get_all");
+      const response = await axios.get(`${API_BASE_URL}/audienceGroup/get_all`);
       setAudienceGroups(response.data || []);
     } catch (err) {
       console.error("Error fetching audience groups", err);
@@ -29,7 +30,7 @@ const ManageAudience = () => {
 
   const deleteAudienceGroup = async (groupId) => {
     try {
-      await axios.delete(`http://127.0.0.1:8000/audienceGroup/delete/${groupId}`);
+      await axios.delete(`${API_BASE_URL}/audienceGroup/delete/${groupId}`);
       setAudienceGroups(audienceGroups.filter(group => group.groupId !== groupId)); 
       alert("Audience Group deleted successfully!");
     } catch (err) {
