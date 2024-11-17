@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const Order = require("../models/order.model")
-const Customer = require("../models/customers.model")
+const { v4: uuidv4 } = require('uuid'); // Add uuid for generating random IDs
+const Order = require("../models/order.model");
+const Customer = require("../models/customers.model");
 
 router.post("/place", async (req, res) => {
     try {
@@ -9,15 +10,34 @@ router.post("/place", async (req, res) => {
         if (!customerId) {
             return res.status(400).json({ message: "Invalid input" });
         }
-        const { orderId, orderAmount } = req.body.orders;
+
+        let { orderId, orderAmount } = req.body.orders;
+
+        // Generate a random orderId if not provided
+        if (!orderId) {
+            orderId = uuidv4(); // Generates a random UUID
+        }
+
+        // Validate orderAmount
+        if (!orderAmount || isNaN(orderAmount)) {
+            return res.status(400).json({ message: "Valid Order Amount is required" });
+        }
 
         let order = await Order.findOne({ customerId });
 
         if (order) {
+            // Check if the orderId already exists
+            const existingOrder = order.orders.find(o => o.orderId === orderId);
+            if (existingOrder) {
+                return res.status(400).json({ message: "Order ID already exists" });
+            }
+
+            // Add new order to the orders array
             const newOrder = { orderId, orderAmount };
             order.orders.push(newOrder);
             await order.save();
 
+            // Update customer's spent amount
             await Customer.findOneAndUpdate(
                 { customerId },
                 { $inc: { spent: orderAmount } },
@@ -26,6 +46,7 @@ router.post("/place", async (req, res) => {
 
             return res.status(200).json({ message: "Order Added to Existing Customer", order });
         } else {
+            // Create a new order entry for the customer
             order = new Order({
                 customerId,
                 orders: [{ orderId, orderAmount }]
@@ -33,6 +54,7 @@ router.post("/place", async (req, res) => {
 
             await order.save();
 
+            // Update customer's spent amount
             await Customer.findOneAndUpdate(
                 { customerId },
                 { $inc: { spent: orderAmount } },
@@ -45,6 +67,9 @@ router.post("/place", async (req, res) => {
         res.status(500).json({ message: "Error saving order details", error });
     }
 });
+
+module.exports = router;
+
 
 router.get("/get_all", async(req,res) => {
     try{
