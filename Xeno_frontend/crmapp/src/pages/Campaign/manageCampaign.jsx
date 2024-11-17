@@ -94,6 +94,7 @@ const ManageCampaignsPage = () => {
                   </td>
                 </tr>
               ))
+              
             ) : (
               <tr>
                 <td colSpan="4">No campaigns found.</td>
@@ -102,6 +103,7 @@ const ManageCampaignsPage = () => {
           </tbody>
         </table>
       )}
+      <Link to="/createCampaign"><button className="action-button">Create Campaigns</button></Link>
     </div>
   );
 };
