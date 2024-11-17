@@ -48,11 +48,30 @@ router.get("/get_all", async (req, res) => {
 });
 
 
+router.get("/get_distinct_values", async (req, res) => {
+  try {
+    const distinctAges = await AudienceGroup.distinct("customers.age");
+    const distinctAddresses = await AudienceGroup.distinct("customers.address");
+    const distinctSpent = await AudienceGroup.distinct("customers.spent");
+    const distinctVisits = await AudienceGroup.distinct("customers.visits");
+
+    res.status(200).json({
+      distinctAges,
+      distinctAddresses,
+      distinctSpent,
+      distinctVisits,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching distinct values", error });
+  }
+});
+
+
 router.post("/save_audience_group", async (req, res) => {
   try {
     const { name, filters, customers } = req.body;
 
-    if (!name || !filters) {
+    if (!name || !filters || !customers) {
       return res.status(400).json({ message: "Name, filters, and customers are required" });
     }
 
@@ -70,6 +89,7 @@ router.post("/save_audience_group", async (req, res) => {
     res.status(500).json({ message: "Error saving audience group", error });
   }
 });
+
 
 router.get("/get_audience/:campaignId", async (req, res) => {
   const { campaignId } = req.params;
