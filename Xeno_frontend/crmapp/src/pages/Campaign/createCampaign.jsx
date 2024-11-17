@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./createCampaign.css";
+import API_BASE_URL from '../globals';
 
 const CampaignPage = () => {
   const [audienceGroups, setAudienceGroups] = useState([]);
@@ -17,7 +18,7 @@ const CampaignPage = () => {
   const fetchAudienceGroups = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://127.0.0.1:8000/audienceGroup/get_all");
+      const response = await axios.get(`${API_BASE_URL}/audienceGroup/get_all`);
       setAudienceGroups(response.data || []);
     } catch (err) {
       console.error("Error fetching audience groups", err);
@@ -45,7 +46,7 @@ const CampaignPage = () => {
 
     try {
       setLoading(true);
-      const response = await axios.post("http://127.0.0.1:8000/campaigns/create", {
+      const response = await axios.post(`${API_BASE_URL}/campaigns/create`, {
         audienceGroups: selectedGroups,
         name: campaignName.trim(),
       });

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./manageCampaign.css";
+import API_BASE_URL from '../globals';
 
 const ManageCampaignsPage = () => {
   const [campaigns, setCampaigns] = useState([]);
@@ -17,7 +18,7 @@ const ManageCampaignsPage = () => {
   const fetchCampaigns = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://127.0.0.1:8000/campaigns/get_all");
+      const response = await axios.get(`${API_BASE_URL}/campaigns/get_all`);
       setCampaigns(response.data || []);
     } catch (err) {
       console.error("Error fetching campaigns", err);
@@ -33,7 +34,7 @@ const ManageCampaignsPage = () => {
     if (!confirmDelete) return;
 
     try {
-      const response = await axios.delete(`http://127.0.0.1:8000/campaigns/delete/${campaignId}`);
+      const response = await axios.delete(`${API_BASE_URL}/campaigns/delete/${campaignId}`);
       if (response.status === 200) {
         alert("Campaign deleted successfully!");
         fetchCampaigns(); // Refresh campaigns list
