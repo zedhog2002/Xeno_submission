@@ -15,7 +15,7 @@ function Home() {
           <Link to="/createAudience"><button className="action-button">Create Audience Segments</button></Link>
           <Link to="/createCampaign"><button className="action-button">Create Campaigns</button></Link>
           <Link to="/manageCampaign"><button className="action-button">Manage Campaigns</button></Link>
-          <button className="action-button">Manage Audience Segments</button>
+          <Link to="/manageAudience"><button className="action-button">Manage Audience Segments</button></Link>
         </div>
       </div>
     </div>

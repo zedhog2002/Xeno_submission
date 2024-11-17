@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import "./sendMessages.css";
+import API_BASE_URL from '../globals';
 
 const SendMessagesPage = () => {
     const { campaignId } = useParams();
@@ -16,7 +17,7 @@ const SendMessagesPage = () => {
 
     const fetchAudienceGroup = async () => {
         try {
-            const response = await axios.get(`http://127.0.0.1:8000/audienceGroup/get_audience/${campaignId}`);
+            const response = await axios.get(`${API_BASE_URL}/audienceGroup/get_audience/${campaignId}`);
             setAudienceGroup(response.data || []);
         } catch (err) {
             console.error("Error fetching audience group", err);
@@ -25,7 +26,7 @@ const SendMessagesPage = () => {
 
     const fetchMessageLogs = async () => {
         try {
-            const response = await axios.get(`http://127.0.0.1:8000/messageLogs/${campaignId}`);
+            const response = await axios.get(`${API_BASE_URL}/messageLogs/${campaignId}`);
             console.log(response.data); // Debug to check what is returned
             // Access the 'customers' array from the response data
             setMessageLogs(response.data[0]?.customers || []); // Fix: Access customers from the first element in the response
@@ -41,7 +42,7 @@ const SendMessagesPage = () => {
         }
 
         try {
-            const response = await axios.post(`http://127.0.0.1:8000/messageLogs/send_message`, {
+            const response = await axios.post(`${API_BASE_URL}/messageLogs/send_message`, {
                 campaignId,
                 messageTemplate,
             });

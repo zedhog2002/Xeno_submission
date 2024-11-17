@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './addCustomer.css'; // Optional: Add styling
+import API_BASE_URL from '../globals';
 
 const AddCustomer = () => {
   const [formData, setFormData] = useState({
@@ -42,7 +43,7 @@ const AddCustomer = () => {
       return;
     }
     try {
-      const response = await axios.post('http://127.0.0.1:8000/customers/reg', formData);
+      const response = await axios.post(`${API_BASE_URL}/customers/reg`, formData);
       setMessage(response.data.message);
       setError('');
       setFormData({
